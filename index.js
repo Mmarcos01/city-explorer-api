@@ -52,17 +52,20 @@ app.get(`/movies/:id`, (request, response) => {
     .then(movieData => {
       // response.send(movieData.body.results);
       response.json(movieData.body.results.map(movie => new MovieItem(movie)));
+    })
+    .catch(error => {
+      handleError(error, response);
     });
 });
 
 function MovieItem(movie) {
   this.title = movie.title;
   this.overview = movie.overview;
-  this.average_votes = movie.average_votes;
-  this.total_votes = movie.total_votes;
-  this.image_url = movie.image_url;
+  this.vote_average = movie.vote_average;
+  this.vote_count = movie.vote_count;
+  this.poster_path = movie.poster_path;
   this.popularity = movie.popularity;
-  this.released_on = movie.released_on;
+  this.release_date = movie.release_date;
 }
 
 function handleError(error, response) {
