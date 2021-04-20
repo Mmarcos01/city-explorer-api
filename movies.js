@@ -1,17 +1,12 @@
 const superagent = require('superagent');
-require('dotenv').config();
 
 function getMovies(request, response) {
-  let citySearched = request.params.id;
   superagent.get('https://api.themoviedb.org/3/search/movie')
     .query({
       api_key: process.env.MOVIE_API_KEY,
-      query: `${citySearched}`,
-      //testing local:
-      // query: 'Seattle',
+      query: request.query.city,
     })
     .then(movieData => {
-      // response.send(movieData.body.results);
       response.json(movieData.body.results.map(movie => new MovieItem(movie)));
     })
     .catch(error => {
